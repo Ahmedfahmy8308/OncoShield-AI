@@ -1,0 +1,18 @@
+/* ==========================================================================
+   COMPONENTS
+   ========================================================================== */
+.ai-gradient-border {
+  position: relative;
+  background: #ffffff;
+  border-radius: 0.75rem;
+}
+
+.ai-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: linear-gradient(to right, #006591, #006194);
+  border-radius: inherit;
+  padding: 1px;
+}

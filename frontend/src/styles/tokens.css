@@ -1,0 +1,72 @@
+/* ==========================================================================
+   DESIGN TOKENS
+   ========================================================================== */
+@theme {
+  --color-surface-container: #eceef0;
+  --color-surface-bright: #f7f9fb;
+  --color-on-primary-container: #fdfcff;
+  --color-surface-variant: #e0e3e5;
+  --color-outline-variant: #bfc7d2;
+  --color-on-secondary: #ffffff;
+  --color-primary-container: #007bb9;
+  --color-on-error: #ffffff;
+  --color-on-background: #191c1e;
+  --color-secondary-fixed: #c9e6ff;
+  --color-primary-fixed: #cce5ff;
+  --color-inverse-on-surface: #eff1f3;
+  --color-on-tertiary-fixed-variant: #3f465c;
+  --color-surface-dim: #d8dadc;
+  --color-tertiary-fixed: #dae2fd;
+  --color-on-primary-fixed-variant: #004b73;
+  --color-on-surface-variant: #3f4850;
+  --color-secondary-fixed-dim: #89ceff;
+  --color-secondary-container: #39b8fd;
+  --color-surface-container-lowest: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+  --color-inverse-surface: #2d3133;
+  --color-primary: #006194;
+  --color-surface-tint: #006398;
+  --color-inverse-primary: #93ccff;
+  --color-surface-container-high: #e6e8ea;
+  --color-on-tertiary-container: #fefcff;
+  --color-on-tertiary-fixed: #131b2e;
+  --color-on-secondary-fixed-variant: #004c6e;
+  --color-error: #ba1a1a;
+  --color-surface-container-low: #f2f4f6;
+  --color-tertiary: #545c72;
+  --color-outline: #707881;
+  --color-tertiary-fixed-dim: #bec6e0;
+  --color-background: #f7f9fb;
+  --color-on-primary: #ffffff;
+  --color-surface-container-highest: #e0e3e5;
+  --color-on-tertiary: #ffffff;
+  --color-on-primary-fixed: #001d31;
+  --color-tertiary-container: #6c748b;
+  --color-surface: #f7f9fb;
+  --color-secondary: #006591;
+  --color-on-secondary-container: #004666;
+  --color-on-secondary-fixed: #001e2f;
+  --color-primary-fixed-dim: #93ccff;
+  --color-on-surface: #191c1e;
+
+  --spacing-stack-sm: 8px;
+  --spacing-stack-lg: 24px;
+  --spacing-gutter: 24px;
+  --spacing-stack-xs: 4px;
+  --spacing-stack-md: 16px;
+  --spacing-margin-desktop: 40px;
+  --spacing-unit: 4px;
+  --spacing-margin-mobile: 16px;
+  --spacing-stack-xl: 48px;
+  --spacing-container-max: 1440px;
+
+  --font-h2: Manrope, sans-serif;
+  --font-label-caps: Inter, sans-serif;
+  --font-body-md: Inter, sans-serif;
+  --font-body-lg: Inter, sans-serif;
+  --font-body-sm: Inter, sans-serif;
+  --font-h1: Manrope, sans-serif;
+  --font-h3: Manrope, sans-serif;
+  --font-code: Inter, monospace;
+}
