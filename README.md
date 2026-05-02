@@ -2,6 +2,12 @@
   <img src="frontend/public/images/logo.png" alt="OncoShield AI Logo" width="120" />
   <h1>🛡️ OncoShield AI</h1>
   <h3>Intelligent Breast Cancer Diagnostic System</h3>
+  
+  <p>
+    <a href="https://oncoshield-ai.ufuq-tech.com"><b>🌍 Live Deployment: OncoShield-AI.ufuq-tech.com</b></a><br/>
+    <a href="https://github.com/Ahmedfahmy8308/OncoShield-AI"><b>📁 GitHub Repository</b></a>
+  </p>
+
   <p>Proudly designed, engineered, and developed by <strong><a href="https://ufuq-tech.com/">Ufuq Tech</a></strong>.</p>
 </div>
 

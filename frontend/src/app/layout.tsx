@@ -31,14 +31,14 @@ export default function RootLayout({
           <div className="z-50 border-b border-amber-200 bg-amber-100 px-4 py-3 text-center text-[14px] font-medium text-amber-900">
             <span className="flex items-center justify-center gap-2 font-bold">
               <span className="material-symbols-outlined text-[18px]">cloud_off</span>
-              DEMO MODE (VERCEL DEPLOYMENT)
+              DEMO MODE
             </span>
             <p className="mt-1">
               The FastAPI backend is not running on Vercel. You are viewing{' '}
               <span className="font-bold underline decoration-amber-400">Mock Data</span>. To use
               the real ANN engine, please{' '}
               <a
-                href="https://github.com/Ufuq-Tech"
+                href="https://github.com/Ahmedfahmy8308/OncoShield-AI"
                 className="text-primary font-bold hover:underline"
               >
                 download the repository locally
