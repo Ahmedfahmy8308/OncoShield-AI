@@ -12,5 +12,6 @@
 @import './components.css';
 @import './utilities.css';
 
-html { scroll-behavior: smooth; }
-
+html {
+  scroll-behavior: smooth;
+}

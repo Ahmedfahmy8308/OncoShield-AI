@@ -7,11 +7,13 @@ import { fetchPredictionSummary } from '@/src/lib/api';
 
 export default async function DiagnosticsPortal() {
   const stats = await fetchPredictionSummary();
-  
+
   const totalCases = stats?.total_predictions || 1284;
   const requiresReview = stats?.malignant_cases || 8;
   const analyzed = stats?.benign_cases || 1234;
-  const avgConfidence = stats?.average_confidence ? (stats.average_confidence * 100).toFixed(1) : "99.8";
+  const avgConfidence = stats?.average_confidence
+    ? (stats.average_confidence * 100).toFixed(1)
+    : '99.8';
   return (
     <div className="px-margin-desktop py-stack-xl mx-auto w-full max-w-screen-2xl">
       {/* Header Section */}
@@ -104,7 +106,7 @@ export default async function DiagnosticsPortal() {
 
       {/* Main Content Table Card */}
       <div className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_4px_6px_-1px_rgba(2,132,199,0.05)]">
-        <div className="px-gutter py-stack-md bg-surface-bright flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between border-b border-slate-100">
+        <div className="px-gutter py-stack-md bg-surface-bright flex flex-col items-start justify-between gap-4 border-b border-slate-100 sm:flex-row sm:items-center">
           <div className="gap-gutter flex flex-wrap items-center">
             <h3 className="font-h3 text-on-background text-[24px] font-semibold">
               Active Case Queue
@@ -192,22 +194,30 @@ export default async function DiagnosticsPortal() {
         </div>
 
         <div className="p-gutter bg-surface-bright border-t border-slate-100">
-          <div className="ai-gradient-border relative overflow-hidden p-stack-lg shadow-sm flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+          <div className="ai-gradient-border p-stack-lg relative flex flex-col items-center gap-6 overflow-hidden text-center shadow-sm sm:flex-row sm:items-start sm:text-left">
             <div className="absolute inset-0 z-0">
-               <img src="/images/neural_network_bg.png" className="w-full h-full object-cover opacity-10" alt="Neural Background"/>
+              <img
+                src="/images/neural_network_bg.png"
+                className="h-full w-full object-cover opacity-10"
+                alt="Neural Background"
+              />
             </div>
-            <div className="relative z-10 w-24 h-24 shrink-0 rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-black mx-auto sm:mx-0">
-                <img src="/images/mammogram.png" className="w-full h-full object-cover mix-blend-screen" alt="Insight Mammogram" />
+            <div className="relative z-10 mx-auto h-24 w-24 shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-black shadow-sm sm:mx-0">
+              <img
+                src="/images/mammogram.png"
+                className="h-full w-full object-cover mix-blend-screen"
+                alt="Insight Mammogram"
+              />
             </div>
             <div className="relative z-10 flex-1">
-              <h4 className="text-on-background mb-1 font-semibold flex items-center gap-2">
-                 <span className="material-symbols-outlined text-primary">smart_toy</span>
-                 OncoShield AI Insight
+              <h4 className="text-on-background mb-1 flex items-center gap-2 font-semibold">
+                <span className="material-symbols-outlined text-primary">smart_toy</span>
+                OncoShield AI Insight
               </h4>
               <p className="font-body-sm text-on-surface-variant text-[14px]">
                 The current pending queue is 15% lower than typical Monday volumes. Case PX-99283
-                shows highly correlated features with historical Class-IV cases; prioritizing
-                review is recommended.
+                shows highly correlated features with historical Class-IV cases; prioritizing review
+                is recommended.
               </p>
             </div>
           </div>

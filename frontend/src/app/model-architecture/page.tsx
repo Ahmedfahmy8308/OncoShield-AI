@@ -1,30 +1,38 @@
-"use client";
+'use client';
 
 // Copyright (c) 2026 Ahmed Fahmy
 // Developed at UFUQ TECH
 // Proprietary software. See LICENSE file in the project root for full license information.
 
 import React, { useState, useEffect, useRef } from 'react';
-import { trainModel, getModelSettings, updateModelSettings, generateRawData, cleanData } from '@/src/lib/api';
+import {
+  trainModel,
+  getModelSettings,
+  updateModelSettings,
+  generateRawData,
+  cleanData,
+} from '@/src/lib/api';
 
 export default function ModelArchitecturePage() {
   const [isTraining, setIsTraining] = useState(false);
   const [logs, setLogs] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   // MLOps State
   const [epochs, setEpochs] = useState(50);
   const [batchSize, setBatchSize] = useState(16);
-  const [dataStats, setDataStats] = useState<any>(null);
+  const [dataStats, setDataStats] = useState<Record<string, number> | null>(null);
   const [isLoadingSettings, setIsLoadingSettings] = useState(true);
 
   useEffect(() => {
     // Fetch initial settings
-    getModelSettings().then(data => {
-       setEpochs(data.training.epochs);
-       setBatchSize(data.training.batch_size);
-       setIsLoadingSettings(false);
-    }).catch(console.error);
+    getModelSettings()
+      .then((data) => {
+        setEpochs(data.training.epochs);
+        setBatchSize(data.training.batch_size);
+        setIsLoadingSettings(false);
+      })
+      .catch(console.error);
   }, []);
 
   const handleUpdateSettings = async () => {
@@ -42,19 +50,19 @@ export default function ModelArchitecturePage() {
 
   const handleGenerateRaw = async () => {
     try {
-       const res = await generateRawData();
-       setDataStats(res.stats);
+      const res = await generateRawData();
+      setDataStats(res.stats);
     } catch (e) {
-       console.error(e);
+      console.error(e);
     }
   };
 
   const handleCleanData = async () => {
     try {
-       const res = await cleanData();
-       setDataStats(res.stats);
+      const res = await cleanData();
+      setDataStats(res.stats);
     } catch (e) {
-       console.error(e);
+      console.error(e);
     }
   };
 
@@ -67,20 +75,20 @@ export default function ModelArchitecturePage() {
   const handleTrain = async () => {
     if (isTraining) return;
     setIsTraining(true);
-    setLogs(["Initiating training sequence...", "Connecting to Ufuq Tech MLOps Engine..."]);
-    
+    setLogs(['Initiating training sequence...', 'Connecting to Ufuq Tech MLOps Engine...']);
+
     try {
       await trainModel();
       const eventSource = new EventSource('http://127.0.0.1:8000/api/v1/model/stream-logs');
-      
+
       eventSource.onmessage = (event) => {
-        setLogs(prev => {
-           const newLogs = [...prev, event.data];
-           if (event.data.includes("Training completed")) {
-             eventSource.close();
-             setIsTraining(false);
-           }
-           return newLogs;
+        setLogs((prev) => {
+          const newLogs = [...prev, event.data];
+          if (event.data.includes('Training completed')) {
+            eventSource.close();
+            setIsTraining(false);
+          }
+          return newLogs;
         });
       };
 
@@ -88,10 +96,9 @@ export default function ModelArchitecturePage() {
         eventSource.close();
         setIsTraining(false);
       };
-      
     } catch (error) {
       console.error(error);
-      setLogs(prev => [...prev, "Failed to start training. Is the backend running?"]);
+      setLogs((prev) => [...prev, 'Failed to start training. Is the backend running?']);
       setIsTraining(false);
     }
   };
@@ -152,31 +159,41 @@ export default function ModelArchitecturePage() {
                 Neural Network Trainer
               </h2>
               <p className="font-body-md text-on-surface-variant max-w-2xl text-[16px] leading-relaxed">
-                Connect directly to the Ufuq Tech backend via Server-Sent Events (SSE). Start a background task and watch the epochs stream in real-time.
+                Connect directly to the Ufuq Tech backend via Server-Sent Events (SSE). Start a
+                background task and watch the epochs stream in real-time.
               </p>
-              <div ref={containerRef} className="bg-slate-900 border-outline-variant font-code text-sky-400 flex flex-col rounded-lg border p-4 text-[13px] h-48 overflow-y-auto overflow-x-hidden shadow-inner mt-4 w-full">
+              <div
+                ref={containerRef}
+                className="border-outline-variant font-code mt-4 flex h-48 w-full flex-col overflow-x-hidden overflow-y-auto rounded-lg border bg-slate-900 p-4 text-[13px] text-sky-400 shadow-inner"
+              >
                 {logs.length === 0 ? (
-                   <div className="flex items-center gap-3 italic text-slate-500 h-full justify-center">
-                     <span className="bg-slate-700 h-2 w-2 animate-pulse rounded-full"></span>
-                     Ready to initiate new training cycle...
-                   </div>
+                  <div className="flex h-full items-center justify-center gap-3 text-slate-500 italic">
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-slate-700"></span>
+                    Ready to initiate new training cycle...
+                  </div>
                 ) : (
-                   <div className="space-y-1 text-left w-full">
-                     {logs.map((log, idx) => (
-                       <div key={idx} className={`${log.includes('loss') ? 'text-emerald-400' : 'text-sky-400'} break-all`}>
-                         <span className="text-slate-600 mr-2">{'>'}</span> {log}
-                       </div>
-                     ))}
-                   </div>
+                  <div className="w-full space-y-1 text-left">
+                    {logs.map((log, idx) => (
+                      <div
+                        key={idx}
+                        className={`${log.includes('loss') ? 'text-emerald-400' : 'text-sky-400'} break-all`}
+                      >
+                        <span className="mr-2 text-slate-600">{'>'}</span> {log}
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
             </div>
             <div className="w-full space-y-4 lg:w-1/3">
-              <button 
+              <button
                 onClick={handleTrain}
                 disabled={isTraining}
-                className="bg-primary group flex w-full items-center justify-center gap-3 rounded-xl py-4 font-bold text-white shadow-[0_4px_6px_-1px_rgba(2,132,199,0.05)] transition-all hover:brightness-110 active:scale-95 disabled:opacity-50">
-                <span className={`material-symbols-outlined ${isTraining ? 'animate-spin' : 'transition-transform duration-500 group-hover:rotate-180'}`}>
+                className="bg-primary group flex w-full items-center justify-center gap-3 rounded-xl py-4 font-bold text-white shadow-[0_4px_6px_-1px_rgba(2,132,199,0.05)] transition-all hover:brightness-110 active:scale-95 disabled:opacity-50"
+              >
+                <span
+                  className={`material-symbols-outlined ${isTraining ? 'animate-spin' : 'transition-transform duration-500 group-hover:rotate-180'}`}
+                >
                   sync
                 </span>
                 {isTraining ? 'Training in Progress...' : 'Train OncoShield Model'}
@@ -191,75 +208,122 @@ export default function ModelArchitecturePage() {
         <h2 className="font-h2 text-on-surface mb-stack-lg text-[32px] leading-[1.3] font-semibold tracking-[-0.01em]">
           Data Pipeline & Configuration
         </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+        <div className="gap-gutter grid grid-cols-1 lg:grid-cols-2">
           {/* Data Pipeline Panel */}
           <div className="bg-surface-container-lowest p-stack-lg flex flex-col rounded-xl border border-slate-100 shadow-[0_4px_6px_-1px_rgba(2,132,199,0.05)]">
-            <h3 className="font-h3 text-[24px] font-semibold mb-4">Dataset Management</h3>
-            <p className="text-on-surface-variant text-[14px] mb-6">
-              Generate raw diagnostic datasets or trigger the imputation and scaling pipeline manually.
+            <h3 className="font-h3 mb-4 text-[24px] font-semibold">Dataset Management</h3>
+            <p className="text-on-surface-variant mb-6 text-[14px]">
+              Generate raw diagnostic datasets or trigger the imputation and scaling pipeline
+              manually.
             </p>
-            <div className="flex gap-4 mb-8">
-              <button onClick={handleGenerateRaw} className="flex-1 bg-slate-800 hover:bg-slate-700 text-white py-3 rounded-lg font-semibold transition-all">
+            <div className="mb-8 flex gap-4">
+              <button
+                onClick={handleGenerateRaw}
+                className="flex-1 rounded-lg bg-slate-800 py-3 font-semibold text-white transition-all hover:bg-slate-700"
+              >
                 Generate Raw Data
               </button>
-              <button onClick={handleCleanData} className="flex-1 bg-primary hover:bg-surface-tint text-white py-3 rounded-lg font-semibold transition-all">
+              <button
+                onClick={handleCleanData}
+                className="bg-primary hover:bg-surface-tint flex-1 rounded-lg py-3 font-semibold text-white transition-all"
+              >
                 Clean & Preprocess
               </button>
             </div>
-            
+
             {dataStats && dataStats.missing_values !== undefined && (
-              <div className="bg-slate-50 p-6 rounded-lg border border-slate-200 animate-in fade-in zoom-in duration-300">
-                <div className="flex items-center gap-2 mb-4">
+              <div className="animate-in fade-in zoom-in rounded-lg border border-slate-200 bg-slate-50 p-6 duration-300">
+                <div className="mb-4 flex items-center gap-2">
                   <span className="material-symbols-outlined text-amber-500">warning</span>
-                  <h4 className="font-h3 text-[18px] font-bold text-slate-800">Raw Data Analysis</h4>
+                  <h4 className="font-h3 text-[18px] font-bold text-slate-800">
+                    Raw Data Analysis
+                  </h4>
                 </div>
-                <div className="grid grid-cols-3 gap-4 mb-4">
-                  <div className="bg-white p-4 rounded shadow-sm border border-slate-100">
-                    <p className="text-slate-500 text-[12px] font-bold uppercase tracking-wider mb-1">Total Rows</p>
-                    <p className="text-2xl font-black text-slate-800">{dataStats.total_rows.toLocaleString()}</p>
+                <div className="mb-4 grid grid-cols-3 gap-4">
+                  <div className="rounded border border-slate-100 bg-white p-4 shadow-sm">
+                    <p className="mb-1 text-[12px] font-bold tracking-wider text-slate-500 uppercase">
+                      Total Rows
+                    </p>
+                    <p className="text-2xl font-black text-slate-800">
+                      {dataStats.total_rows.toLocaleString()}
+                    </p>
                   </div>
-                  <div className="bg-white p-4 rounded shadow-sm border border-slate-100">
-                    <p className="text-slate-500 text-[12px] font-bold uppercase tracking-wider mb-1">Features</p>
-                    <p className="text-2xl font-black text-slate-800">{dataStats.total_columns - 1}</p>
+                  <div className="rounded border border-slate-100 bg-white p-4 shadow-sm">
+                    <p className="mb-1 text-[12px] font-bold tracking-wider text-slate-500 uppercase">
+                      Features
+                    </p>
+                    <p className="text-2xl font-black text-slate-800">
+                      {dataStats.total_columns - 1}
+                    </p>
                   </div>
-                  <div className="bg-amber-50 p-4 rounded shadow-sm border border-amber-100">
-                    <p className="text-amber-700 text-[12px] font-bold uppercase tracking-wider mb-1">Missing Values</p>
-                    <p className="text-2xl font-black text-amber-600 animate-pulse">{dataStats.missing_values.toLocaleString()}</p>
+                  <div className="rounded border border-amber-100 bg-amber-50 p-4 shadow-sm">
+                    <p className="mb-1 text-[12px] font-bold tracking-wider text-amber-700 uppercase">
+                      Missing Values
+                    </p>
+                    <p className="animate-pulse text-2xl font-black text-amber-600">
+                      {dataStats.missing_values.toLocaleString()}
+                    </p>
                   </div>
                 </div>
-                <p className="text-[13px] text-slate-600 bg-white p-3 rounded border border-slate-200">
-                  <span className="font-bold text-slate-800">Note:</span> The dataset has been artificially augmented to simulate real-world clinical noise. Data must be cleaned before training.
+                <p className="rounded border border-slate-200 bg-white p-3 text-[13px] text-slate-600">
+                  <span className="font-bold text-slate-800">Note:</span> The dataset has been
+                  artificially augmented to simulate real-world clinical noise. Data must be cleaned
+                  before training.
                 </p>
               </div>
             )}
 
             {dataStats && dataStats.train_samples !== undefined && (
-              <div className="bg-emerald-50 p-6 rounded-lg border border-emerald-200 animate-in fade-in zoom-in duration-300">
-                <div className="flex items-center gap-2 mb-4">
+              <div className="animate-in fade-in zoom-in rounded-lg border border-emerald-200 bg-emerald-50 p-6 duration-300">
+                <div className="mb-4 flex items-center gap-2">
                   <span className="material-symbols-outlined text-emerald-600">verified</span>
-                  <h4 className="font-h3 text-[18px] font-bold text-slate-800">Cleaned & Split Data</h4>
+                  <h4 className="font-h3 text-[18px] font-bold text-slate-800">
+                    Cleaned & Split Data
+                  </h4>
                 </div>
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="bg-white p-4 rounded shadow-sm border border-emerald-100">
-                    <p className="text-slate-500 text-[12px] font-bold uppercase tracking-wider mb-1">Missing Values Fixed</p>
+                <div className="mb-6 grid grid-cols-2 gap-4">
+                  <div className="rounded border border-emerald-100 bg-white p-4 shadow-sm">
+                    <p className="mb-1 text-[12px] font-bold tracking-wider text-slate-500 uppercase">
+                      Missing Values Fixed
+                    </p>
                     <div className="flex items-center gap-2">
-                      <span className="text-2xl font-black text-emerald-600">{dataStats.initial_missing_values.toLocaleString()}</span>
-                      <span className="material-symbols-outlined text-emerald-500 text-sm">arrow_right_alt</span>
+                      <span className="text-2xl font-black text-emerald-600">
+                        {dataStats.initial_missing_values.toLocaleString()}
+                      </span>
+                      <span className="material-symbols-outlined text-sm text-emerald-500">
+                        arrow_right_alt
+                      </span>
                       <span className="text-2xl font-black text-emerald-600">0</span>
                     </div>
                   </div>
-                  <div className="bg-white p-4 rounded shadow-sm border border-emerald-100">
-                    <p className="text-slate-500 text-[12px] font-bold uppercase tracking-wider mb-1">Total Processed</p>
-                    <p className="text-2xl font-black text-slate-800">{dataStats.total_rows_processed.toLocaleString()}</p>
+                  <div className="rounded border border-emerald-100 bg-white p-4 shadow-sm">
+                    <p className="mb-1 text-[12px] font-bold tracking-wider text-slate-500 uppercase">
+                      Total Processed
+                    </p>
+                    <p className="text-2xl font-black text-slate-800">
+                      {dataStats.total_rows_processed.toLocaleString()}
+                    </p>
                   </div>
                 </div>
-                
-                <h5 className="font-label-caps text-slate-500 mb-2 text-[11px] font-bold tracking-[0.05em]">TRAIN / TEST SPLIT (80/20)</h5>
-                <div className="flex h-4 w-full rounded-full overflow-hidden bg-slate-200">
-                  <div className="bg-emerald-500 flex items-center justify-center text-[10px] font-bold text-white" style={{ width: `${(dataStats.train_samples / dataStats.total_rows_processed) * 100}%` }}>
+
+                <h5 className="font-label-caps mb-2 text-[11px] font-bold tracking-[0.05em] text-slate-500">
+                  TRAIN / TEST SPLIT (80/20)
+                </h5>
+                <div className="flex h-4 w-full overflow-hidden rounded-full bg-slate-200">
+                  <div
+                    className="flex items-center justify-center bg-emerald-500 text-[10px] font-bold text-white"
+                    style={{
+                      width: `${(dataStats.train_samples / dataStats.total_rows_processed) * 100}%`,
+                    }}
+                  >
                     Train ({dataStats.train_samples})
                   </div>
-                  <div className="bg-sky-500 flex items-center justify-center text-[10px] font-bold text-white" style={{ width: `${(dataStats.test_samples / dataStats.total_rows_processed) * 100}%` }}>
+                  <div
+                    className="flex items-center justify-center bg-sky-500 text-[10px] font-bold text-white"
+                    style={{
+                      width: `${(dataStats.test_samples / dataStats.total_rows_processed) * 100}%`,
+                    }}
+                  >
                     Test ({dataStats.test_samples})
                   </div>
                 </div>
@@ -269,31 +333,39 @@ export default function ModelArchitecturePage() {
 
           {/* Hyperparameters Panel */}
           <div className="bg-surface-container-lowest p-stack-lg flex flex-col rounded-xl border border-slate-100 shadow-[0_4px_6px_-1px_rgba(2,132,199,0.05)]">
-            <h3 className="font-h3 text-[24px] font-semibold mb-4">Hyperparameters</h3>
-            <p className="text-on-surface-variant text-[14px] mb-6">
-              Configure the Neural Network training parameters. Changes apply to the next training cycle.
+            <h3 className="font-h3 mb-4 text-[24px] font-semibold">Hyperparameters</h3>
+            <p className="text-on-surface-variant mb-6 text-[14px]">
+              Configure the Neural Network training parameters. Changes apply to the next training
+              cycle.
             </p>
             {!isLoadingSettings && (
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-semibold mb-2 text-slate-700">Epochs (Training Cycles)</label>
-                  <input 
-                    type="number" 
-                    value={epochs} 
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">
+                    Epochs (Training Cycles)
+                  </label>
+                  <input
+                    type="number"
+                    value={epochs}
                     onChange={(e) => setEpochs(Number(e.target.value))}
-                    className="w-full px-4 py-2 rounded border border-slate-200 focus:outline-primary"
+                    className="focus:outline-primary w-full rounded border border-slate-200 px-4 py-2"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold mb-2 text-slate-700">Batch Size</label>
-                  <input 
-                    type="number" 
-                    value={batchSize} 
+                  <label className="mb-2 block text-sm font-semibold text-slate-700">
+                    Batch Size
+                  </label>
+                  <input
+                    type="number"
+                    value={batchSize}
                     onChange={(e) => setBatchSize(Number(e.target.value))}
-                    className="w-full px-4 py-2 rounded border border-slate-200 focus:outline-primary"
+                    className="focus:outline-primary w-full rounded border border-slate-200 px-4 py-2"
                   />
                 </div>
-                <button onClick={handleUpdateSettings} className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-lg font-semibold transition-all">
+                <button
+                  onClick={handleUpdateSettings}
+                  className="w-full rounded-lg bg-emerald-600 py-3 font-semibold text-white transition-all hover:bg-emerald-500"
+                >
                   Save Configuration
                 </button>
               </div>

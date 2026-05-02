@@ -238,9 +238,17 @@ export default function PrivacySecurityPage() {
               </h2>
               <p className="font-body-md text-on-surface-variant mb-stack-lg text-[16px] leading-relaxed">
                 The OncoShield AI platform security architecture was co-designed and is continuously
-                audited by <a href="https://ufuq-tech.com/" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline font-semibold">Ufuq Tech&apos;s</a> Cyber-Health division. Our partnership ensures that the
-                cutting-edge AI capabilities never compromise the fundamental right to patient
-                privacy.
+                audited by{' '}
+                <a
+                  href="https://ufuq-tech.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-sky-600 hover:underline"
+                >
+                  Ufuq Tech&apos;s
+                </a>{' '}
+                Cyber-Health division. Our partnership ensures that the cutting-edge AI capabilities
+                never compromise the fundamental right to patient privacy.
               </p>
               <div className="gap-stack-lg flex flex-wrap">
                 <div className="flex items-center gap-2">

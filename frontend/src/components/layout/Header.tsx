@@ -2,7 +2,7 @@
 // Developed at UFUQ TECH
 // Proprietary software. See LICENSE file in the project root for full license information.
 
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -25,25 +25,30 @@ export function Header() {
     <header className="font-h2 sticky top-0 z-50 w-full border-b border-slate-100 bg-white/90 text-sky-600 antialiased shadow-sm backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/90 dark:text-sky-400 dark:shadow-none">
       <div className="mx-auto flex w-full max-w-screen-2xl items-center justify-between px-6 py-3">
         <div className="flex items-center gap-4">
-          <img
-            alt="Logo"
-            className="h-8 w-8 object-contain"
-            src="/images/logo.png"
-          />
+          <img alt="Logo" className="h-8 w-8 object-contain" src="/images/logo.png" />
           <div className="flex flex-col">
-            <span className="text-xl font-extrabold tracking-tight text-sky-700 dark:text-sky-400 leading-none">
+            <span className="text-xl leading-none font-extrabold tracking-tight text-sky-700 dark:text-sky-400">
               OncoShield AI
             </span>
-            <span className="text-[10px] font-semibold text-slate-400 mt-0.5">
-              by <a href="https://ufuq-tech.com/" target="_blank" rel="noopener noreferrer" className="text-sky-500 hover:text-sky-600 hover:underline">Ufuq Tech</a>
+            <span className="mt-0.5 text-[10px] font-semibold text-slate-400">
+              by{' '}
+              <a
+                href="https://ufuq-tech.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sky-500 hover:text-sky-600 hover:underline"
+              >
+                Ufuq Tech
+              </a>
             </span>
           </div>
         </div>
-        
+
         {/* Desktop Nav */}
         <nav className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href || (link.href === '/dashboard' && pathname === '/');
+            const isActive =
+              pathname === link.href || (link.href === '/dashboard' && pathname === '/');
             return (
               <Link
                 key={link.name}
@@ -72,8 +77,8 @@ export function Header() {
               type="text"
             />
           </div>
-          <button 
-            className="md:hidden flex items-center p-2 text-slate-500 hover:text-sky-600"
+          <button
+            className="flex items-center p-2 text-slate-500 hover:text-sky-600 md:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <span className="material-symbols-outlined text-2xl">
@@ -85,10 +90,11 @@ export function Header() {
 
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-100 bg-white px-6 py-4 shadow-lg absolute w-full dark:bg-slate-900 dark:border-slate-800">
+        <div className="absolute w-full border-t border-slate-100 bg-white px-6 py-4 shadow-lg md:hidden dark:border-slate-800 dark:bg-slate-900">
           <nav className="flex flex-col gap-4">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href || (link.href === '/dashboard' && pathname === '/');
+              const isActive =
+                pathname === link.href || (link.href === '/dashboard' && pathname === '/');
               return (
                 <Link
                   key={link.name}

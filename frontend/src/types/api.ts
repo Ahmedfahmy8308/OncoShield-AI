@@ -7,8 +7,8 @@ export interface PredictionSummary {
 }
 
 export interface DistributionStats {
-  "0_malignant": number;
-  "1_benign": number;
+  '0_malignant': number;
+  '1_benign': number;
   total: number;
 }
 

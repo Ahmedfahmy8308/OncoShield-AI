@@ -8,6 +8,7 @@
 This Next.js application serves as the primary gateway for oncologists and hospital administrators to interact with the OncoShield AI engine. It was built using the proprietary **Ufuq Tech UI Design System**, ensuring a flawless, responsive, and secure user experience.
 
 ### Key Features (Ufuq Tech Standards)
+
 - **HIPAA-Compliant Dashboards**: Secure, encrypted views of patient diagnostic results.
 - **Dynamic Neural Network Visualization**: Real-time insights into model performance metrics.
 - **Ufuq Tech Component Library**: Built with Tailwind CSS v4 to match Ufuq Tech's premium brand aesthetics.
@@ -17,11 +18,13 @@ This Next.js application serves as the primary gateway for oncologists and hospi
 First, ensure you are running this within the Ufuq Tech authorized development environment.
 
 1. Install dependencies:
+
 ```bash
 npm install
 ```
 
 2. Run the development server:
+
 ```bash
 npm run dev
 ```
@@ -34,7 +37,8 @@ This frontend is designed to strictly communicate with the OncoShield FastAPI ba
 
 ## 🛡️ Powered by Ufuq Tech
 
-Everything from the seamless routing, complex state management, and the polished UI/UX was meticulously crafted by the frontend team at [Ufuq Tech](https://ufuq-tech.com/). 
+Everything from the seamless routing, complex state management, and the polished UI/UX was meticulously crafted by the frontend team at [Ufuq Tech](https://ufuq-tech.com/).
 
 ---
-*© 2026 Ahmed Fahmy / Ufuq Tech. All rights reserved.*
+
+_© 2026 Ahmed Fahmy / Ufuq Tech. All rights reserved._
