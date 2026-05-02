@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+pandas
+numpy
+scikit-learn
+tensorflow
+pydantic
+python-dotenv
+aiofiles
+sse-starlette

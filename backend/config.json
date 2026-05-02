@@ -1,0 +1,22 @@
+{
+  "dataset": {
+    "test_size": 0.2,
+    "random_state": 42
+  },
+  "model": {
+    "hidden_layers": [
+      { "units": 64, "activation": "relu", "dropout": 0.2 },
+      { "units": 32, "activation": "relu", "dropout": 0.2 },
+      { "units": 16, "activation": "relu", "dropout": 0.1 }
+    ],
+    "output_activation": "sigmoid",
+    "optimizer": "adam",
+    "loss": "binary_crossentropy"
+  },
+  "training": {
+    "epochs": 50,
+    "batch_size": 16,
+    "save_best_only": true,
+    "keep_history": true
+  }
+}
